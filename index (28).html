@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juanseled NovaStar Hub · 60 equipos para vender</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f5f7fb;--card:#fff;--card2:#eef1f7;--a:#0070c9;--a2:#6d28d9;--a3:#059669;--w:#d97706;--r:#dc2626;--t:#111827;--s:#4b5563;--b:#cbd5e1;--gold:#eab308}
+body{font-family:"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--t);font-size:14px;-webkit-tap-highlight-color:transparent}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#059669,#0070c9,#6d28d9);padding:28px 16px 20px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.1) 1px,transparent 1px);background-size:20px 20px;opacity:.3}
+.hero>*{position:relative;z-index:1}
+.hero .tag{color:rgba(255,255,255,.75);font-size:10px;letter-spacing:2px;margin-bottom:6px;font-weight:800}
+.hero h1{font-size:clamp(24px,6vw,40px);font-weight:900;color:#fff;margin-bottom:4px;line-height:1.1;letter-spacing:-.5px}
+.hero p{color:rgba(255,255,255,.9);font-size:12px;margin-bottom:16px}
+.stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:8px 14px;text-align:center;backdrop-filter:blur(4px)}
+.sv{font-size:18px;font-weight:900;color:#fff}
+.sl{font-size:9px;color:rgba(255,255,255,.75);letter-spacing:1px}
+
+/* NAV */
+nav{display:flex;overflow-x:auto;gap:6px;padding:10px 12px;background:#fff;border-bottom:2px solid var(--b);position:sticky;top:0;z-index:100;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+.nb{flex-shrink:0;padding:8px 16px;border-radius:20px;border:1px solid var(--b);background:var(--card2);color:var(--s);font-size:12px;cursor:pointer;transition:.2s;white-space:nowrap;font-weight:600;font-family:inherit}
+.nb.on{background:var(--a);border-color:var(--a);color:#fff}
+.nb .bdg{background:rgba(255,255,255,.3);padding:1px 6px;border-radius:8px;margin-left:4px;font-size:10px}
+
+/* SECCIONES */
+.sec{display:none;padding:14px;max-width:680px;margin:0 auto}
+.sec.on{display:block}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.ch{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ci{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ct{font-size:14px;font-weight:800;color:var(--t)}
+.cs{font-size:11px;color:var(--s)}
+
+/* CATEGORÍAS EN INICIO */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.cat-item{background:var(--card);border:1px solid var(--b);border-radius:12px;padding:14px 12px;cursor:pointer;transition:.2s;text-align:center}
+.cat-item:hover,.cat-item:active{transform:translateY(-2px);border-color:var(--a);box-shadow:0 4px 12px rgba(0,112,201,.15)}
+.cat-em{font-size:28px;display:block;margin-bottom:6px}
+.cat-n{font-size:12px;font-weight:800;color:var(--t);margin-bottom:2px}
+.cat-c{font-size:10px;color:var(--s)}
+.cat-bar{height:3px;border-radius:2px;margin-top:8px}
+
+/* TARJETA DE EQUIPO (grid) */
+.eq-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px}
+@media(min-width:600px){.eq-grid{grid-template-columns:1fr 1fr}}
+.eq{background:var(--card);border:1px solid var(--b);border-radius:12px;padding:12px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.eq:hover,.eq:active{border-color:var(--a);box-shadow:0 4px 12px rgba(0,112,201,.1);transform:translateY(-1px)}
+.eq.top::before{content:"⭐ TOP";position:absolute;top:8px;right:8px;background:var(--gold);color:#000;font-size:9px;font-weight:900;padding:2px 6px;border-radius:8px;letter-spacing:.5px}
+.eq-cat{font-size:9px;color:var(--s);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700}
+.eq-n{font-size:16px;font-weight:900;color:var(--t);margin-bottom:4px}
+.eq-p{font-size:11px;color:var(--s);line-height:1.4;margin-bottom:10px;min-height:30px}
+.eq-stats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.eq-stat{background:var(--card2);padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;color:var(--s)}
+.eq-stat strong{color:var(--a);font-weight:900}
+.eq-tags{display:flex;gap:3px;flex-wrap:wrap}
+.eq-tag{font-size:9px;background:#dbeafe;color:#1d4ed8;padding:1px 6px;border-radius:6px;font-weight:700}
+
+/* DETALLE DE EQUIPO */
+.det-hero{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;padding:20px 16px;border-radius:14px;margin-bottom:12px;position:relative}
+.det-back{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;padding:6px 12px;border-radius:20px;font-size:11px;cursor:pointer;margin-bottom:10px;font-family:inherit;font-weight:700}
+.det-hero .ec{font-size:10px;opacity:.8;letter-spacing:2px;font-weight:800;margin-bottom:4px}
+.det-hero h2{font-size:26px;font-weight:900;margin-bottom:6px;line-height:1.1}
+.det-hero .pt{font-size:12px;opacity:.95;line-height:1.5;margin-bottom:12px}
+.det-stats{display:flex;gap:8px;flex-wrap:wrap}
+.det-stat{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:6px 10px;border-radius:8px;text-align:center;flex:1;min-width:70px}
+.det-stat .v{font-size:13px;font-weight:900;color:#fff}
+.det-stat .l{font-size:8px;color:rgba(255,255,255,.8);letter-spacing:.5px;margin-top:1px}
+
+.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b);font-size:12px;gap:10px}
+.row:last-child{border:none}
+.rl{color:var(--s)}
+.rv{font-weight:700;color:var(--a);text-align:right;max-width:65%}
+
+.list-pros,.list-cons{list-style:none;padding:0}
+.list-pros li,.list-cons li{font-size:12px;padding:6px 0 6px 22px;position:relative;color:var(--s);line-height:1.5}
+.list-pros li::before{content:"✅";position:absolute;left:0}
+.list-cons li::before{content:"⚠️";position:absolute;left:0}
+
+.alt-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}
+.alt-item{background:var(--card2);border:1px solid var(--b);border-radius:8px;padding:8px;text-align:center}
+.alt-item .al{font-size:9px;color:var(--s);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:3px}
+.alt-item .av{font-size:11px;font-weight:800;color:var(--a)}
+
+.pitch-close{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid #fbbf24;border-radius:12px;padding:14px;font-size:13px;color:#78350f;font-style:italic;line-height:1.6;position:relative;margin-top:8px}
+.pitch-close::before{content:"💰 FRASE DE CIERRE";position:absolute;top:-8px;left:12px;background:var(--gold);color:#000;font-size:9px;font-weight:900;padding:2px 8px;border-radius:10px;letter-spacing:1px}
+
+.chip{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;margin:3px 2px}
+.cb{background:#dbeafe;color:#1d4ed8;border:1px solid #bfdbfe}
+.cp{background:#ede9fe;color:#6d28d9;border:1px solid #ddd6fe}
+.cg{background:#d1fae5;color:#065f46;border:1px solid #a7f3d0}
+.cy{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.cr{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+
+.fav-btn{background:var(--card2);border:2px solid var(--b);color:var(--s);padding:10px 16px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;margin-top:8px;transition:.2s}
+.fav-btn.on{background:#fef3c7;border-color:var(--gold);color:#78350f}
+
+/* BUSCADOR */
+.sbox{position:relative;margin-bottom:14px}
+.sbox input{width:100%;padding:14px 16px 14px 42px;background:var(--card);border:2px solid var(--b);border-radius:12px;color:var(--t);font-size:14px;outline:none;font-family:inherit}
+.sbox input:focus{border-color:var(--a)}
+.sbox::before{content:"🔍";position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px}
+
+/* FILTROS */
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.fchip{padding:6px 12px;border-radius:20px;background:var(--card);border:1px solid var(--b);font-size:11px;cursor:pointer;font-weight:700;color:var(--s);font-family:inherit}
+.fchip.on{background:var(--a);border-color:var(--a);color:#fff}
+
+/* COMPARADOR */
+.cmp-pick{background:var(--card);border:2px dashed var(--b);border-radius:12px;padding:16px;text-align:center;margin-bottom:12px}
+.cmp-pick p{font-size:12px;color:var(--s);margin-bottom:10px}
+.cmp-list{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:10px}
+.cmp-item{background:var(--card2);padding:6px 10px;border-radius:20px;font-size:11px;font-weight:700;border:1px solid var(--b);display:flex;align-items:center;gap:6px}
+.cmp-item .x{cursor:pointer;color:var(--r);font-weight:900}
+.cmp-table{background:var(--card);border:1px solid var(--b);border-radius:12px;overflow:hidden;overflow-x:auto}
+.cmp-table table{width:100%;border-collapse:collapse;font-size:11px}
+.cmp-table th{background:var(--a);color:#fff;padding:10px 8px;text-align:left;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+.cmp-table td{padding:8px;border-bottom:1px solid var(--b);color:var(--s)}
+.cmp-table tr:nth-child(even) td{background:var(--card2)}
+.cmp-table td.eqn{font-weight:900;color:var(--t)}
+
+/* ASISTENTE */
+.asst-q{background:var(--card);border:2px solid var(--a);border-radius:12px;padding:14px;margin-bottom:10px}
+.asst-q h3{font-size:14px;color:var(--t);margin-bottom:10px;font-weight:800}
+.asst-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.asst-opt{background:var(--card2);border:1px solid var(--b);border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;color:var(--s);font-family:inherit;transition:.2s}
+.asst-opt:hover,.asst-opt.sel{background:#dbeafe;border-color:var(--a);color:var(--a)}
+.asst-opt .em{font-size:22px;display:block;margin-bottom:4px}
+
+.asst-reco{background:linear-gradient(135deg,#f0fdf4,#d1fae5);border:2px solid var(--a3);border-radius:12px;padding:16px;margin-top:12px}
+.asst-reco h3{font-size:14px;color:#065f46;margin-bottom:10px;font-weight:900}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:40px 16px;color:var(--s)}
+.empty .em{font-size:42px;margin-bottom:10px}
+.empty p{font-size:12px}
+
+footer{text-align:center;padding:24px 16px;color:var(--s);font-size:11px;border-top:1px solid var(--b);margin-top:20px}
+footer strong{color:var(--a)}
+
+.tip{display:flex;gap:10px;padding:10px 12px;background:#f0f7ff;border-radius:10px;margin-bottom:8px;border-left:3px solid var(--a3)}
+.ti{font-size:18px;flex-shrink:0}
+.tt{font-size:12px;color:var(--s);line-height:1.6}
+.tt strong{color:var(--t)}
+
+.section-title{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--s);font-weight:800;margin:14px 0 6px 2px;display:flex;align-items:center;gap:6px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<p class="tag">⚡ JUANSELED · NOVASTAR SALES KIT</p>
+<h1>La Navaja Suiza</h1>
+<p>60 equipos NovaStar en tu bolsillo — para vender sin dudas</p>
+<div class="stats">
+<div class="stat"><div class="sv">60</div><div class="sl">EQUIPOS</div></div>
+<div class="stat"><div class="sv">10</div><div class="sl">CATEGORÍAS</div></div>
+<div class="stat"><div class="sv">⭐ 12</div><div class="sl">TOP VENTAS</div></div>
+<div class="stat"><div class="sv">💰</div><div class="sl">CIERRE PRO</div></div>
+</div>
+</div>
+
+<nav id="nav">
+<button class="nb on" data-t="inicio">🏠 Inicio</button>
+<button class="nb" data-t="todos">📋 Todos <span class="bdg">60</span></button>
+<button class="nb" data-t="top">⭐ Top ventas</button>
+<button class="nb" data-t="buscar">🔍 Buscar</button>
+<button class="nb" data-t="asist">🎯 Asistente</button>
+<button class="nb" data-t="cmp">🆚 Comparar</button>
+<button class="nb" data-t="favs">❤️ Favoritos</button>
+</nav>
+
+<!-- INICIO -->
+<div class="sec on" id="s-inicio">
+<div class="card">
+<div class="ch"><div class="ci" style="background:#d1fae5">🎯</div><div><div class="ct">¿Cómo uso esta app?</div><div class="cs">Pensada para vender — desde el celular</div></div></div>
+<p style="font-size:12px;color:var(--s);line-height:1.7">Tocá una categoría abajo para ver los equipos de ese tipo. Cada ficha tiene lo que necesitás para cerrar la venta: <strong>qué hace, para qué cliente, specs, puntos fuertes, limitaciones, alternativas y la frase de cierre</strong>. Usá <strong>🔍 Buscar</strong> si ya sabés qué querés, <strong>🎯 Asistente</strong> si no sabés qué ofrecer, o <strong>🆚 Comparar</strong> para poner 2-3 equipos lado a lado.</p>
+</div>
+
+<div class="section-title">📂 CATEGORÍAS</div>
+<div class="cat-grid" id="cat-grid"></div>
+
+<div class="section-title">⭐ LOS MÁS VENDIDOS</div>
+<div class="eq-grid" id="top-grid"></div>
+</div>
+
+<!-- TODOS -->
+<div class="sec" id="s-todos">
+<div class="card">
+<div class="ch"><div class="ci" style="background:#dbeafe">📋</div><div><div class="ct">Los 60 equipos</div><div class="cs">Filtrá por categoría</div></div></div>
+</div>
+<div class="filters" id="todos-filters"></div>
+<div class="eq-grid" id="todos-grid"></div>
+</div>
+
+<!-- TOP -->
+<div class="sec" id="s-top">
+<div class="card" style="border-color:var(--gold);background:linear-gradient(135deg,#fef3c7,#fff)">
+<div class="ch"><div class="ci" style="background:var(--gold)">⭐</div><div><div class="ct">Top ventas</div><div class="cs">Los equipos más pedidos — por donde empezar</div></div></div>
+<p style="font-size:12px;color:var(--s);line-height:1.6">Estos son los equipos que más se venden en Argentina y la región. Son la cara visible de NovaStar — conocidos, con repuestos y con reventa. Cuando no sabés qué ofrecer, empezá por acá.</p>
+</div>
+<div class="eq-grid" id="top-full-grid"></div>
+</div>
+
+<!-- BUSCAR -->
+<div class="sec" id="s-buscar">
+<div class="sbox"><input type="text" id="si" placeholder="Buscar: 4K, fibra, rental, HDR, 13M, broadcast..."></div>
+<div class="filters" id="search-filters"></div>
+<div id="sres"></div>
+</div>
+
+<!-- ASISTENTE -->
+<div class="sec" id="s-asist">
+<div class="card" style="border-color:var(--a)">
+<div class="ch"><div class="ci" style="background:#dbeafe">🎯</div><div><div class="ct">¿Qué le ofrezco al cliente?</div><div class="cs">4 preguntas → recomendación personalizada</div></div></div>
+<p style="font-size:12px;color:var(--s);line-height:1.6">Respondé 4 preguntas sobre el proyecto del cliente y te recomiendo los equipos ideales con argumento de venta. Ideal antes de una reunión.</p>
+</div>
+<div id="asst-content"></div>
+</div>
+
+<!-- COMPARAR -->
+<div class="sec" id="s-cmp">
+<div class="card">
+<div class="ch"><div class="ci" style="background:#ede9fe">🆚</div><div><div class="ct">Comparar equipos</div><div class="cs">Hasta 3 lado a lado</div></div></div>
+<p style="font-size:12px;color:var(--s);line-height:1.6">Elegí 2 o 3 equipos desde la pestaña Todos o Top (botón "Comparar" en cada ficha) y acá los ves en tabla. Perfecto para mostrarle al cliente.</p>
+</div>
+<div id="cmp-content"></div>
+</div>
+
+<!-- FAVORITOS -->
+<div class="sec" id="s-favs">
+<div class="card">
+<div class="ch"><div class="ci" style="background:#fef3c7">❤️</div><div><div class="ct">Tus favoritos</div><div class="cs">Marcá equipos para tus reuniones</div></div></div>
+<p style="font-size:12px;color:var(--s);line-height:1.6">Desde la ficha de cualquier equipo, tocá "Agregar a favoritos". Así tenés tus estrellas de ventas siempre a mano, en el tope de la lista.</p>
+</div>
+<div id="favs-content"></div>
+</div>
+
+<!-- DETALLE -->
+<div class="sec" id="s-detalle"></div>
+
+<footer>Desarrollado por <strong>Juanseled</strong> · NovaStar Sales Kit · 60 equipos · La navaja suiza del vendedor LED</footer>
+
+<script>
+// ========== DATOS ==========
+const EQ = [
+{id:'vc4',n:'VC4',cat:'ctrl',pitch:'Controller compacto 1U para instalación fija — una caja, una pantalla, listo',px:'2.6M',in:'HDMI·DVI·VGA·CVBS·USB',out:'4× RJ45',u:'1U',p:1,top:true,tags:['fijo','cartelería','hotel','shopping','compacto'],cliente:'Shoppings · Hoteles · Lobbies · Cartelería corporativa · Estudios TV pequeños',fuerte:['Opera sin PC — todo desde knob frontal','USB playback nativo (NTFS/FAT32)','Precio súper competitivo','Instalación en 10 minutos'],limit:['HDMI 1.3 (no 4K)','Solo 2.6M px','No tiene fibra óptica','No soporta exFAT'],alt:{menos:'—',mas:'NovaPro UHD Jr',compite:'Procesadores básicos sin marca'},cierre:'"Es el equipo más fácil de instalar de todo NovaStar. Lo enchufás, metés un pendrive y funciona. Cero capacitación, cero PC, cero dolores de cabeza. Ideal para instalaciones donde no hay un técnico permanente."'},
+{id:'vx1000',n:'VX1000',cat:'ctrl',pitch:'All-in-one de entrada — el más vendido de NovaStar, el estándar de la industria',px:'6.5M',in:'HDMI·DVI·VGA·CVBS·SDI·DP',out:'10× RJ45',u:'1U',p:2,top:true,tags:['rental','standard','entrada','pyme','popular'],cliente:'Rental chico-medio · Eventos corporativos · Iglesias · Bares y boliches · Instaladores pyme',fuerte:['EL estándar del mercado — todos lo conocen','6.5M píxeles sobrados para la mayoría de jobs','Multi-layer con PIP','Soporta preview en el propio equipo','Precio imbatible para sus specs'],limit:['No tiene fibra','HDMI 1.3 — sin 4K60','10 puertos (los pro tienen más)'],alt:{menos:'VC4',mas:'VX1000 Pro',compite:'Colorlight Z6 · Linsn controllers'},cierre:'"Es el equipo que todo operador LED conoce de memoria. Si contratás un técnico nuevo, ya sabe manejarlo. Manual, repuestos y soporte en cualquier parte del mundo. La inversión más segura del rubro."'},
+{id:'vx1000pro',n:'VX1000 Pro',cat:'ctrl',pitch:'La evolución del VX1000 — mismo ADN, specs más modernas',px:'6.5M',in:'HDMI 2.0·DP 1.2·DVI·SDI·USB',out:'10× RJ45 + 2× fibra',u:'1U',p:2,top:true,tags:['rental','4k','fibra','evolución','actualizado'],cliente:'Rental medio · Stages medianos · Broadcast local · Upgrades desde VX1000',fuerte:['HDMI 2.0 — ahora sí 4K60','Fibra óptica nativa 2×','Compatible con cualquier setup VX1000 previo','Mismo tamaño 1U','EDID management avanzado'],limit:['6.5M px igual que el VX1000','Precio mayor que el original','Sigue siendo 1U — puede quedar justo en jobs grandes'],alt:{menos:'VX1000',mas:'VX2000 Pro',compite:'MCTRL4K'},cierre:'"Si ya tenés VX1000 y querés dar el salto a 4K sin cambiar tus flujos de trabajo, este es el upgrade natural. Tu equipo técnico no necesita aprender nada nuevo."'},
+{id:'vx2000pro',n:'VX2000 Pro',cat:'ctrl',pitch:'All-in-one de gama alta — 13M píxeles, 20 puertos, nivel rental profesional',px:'13M',in:'HDMI 2.0·DP·12G-SDI·4× fibra',out:'20× RJ45 + 4× fibra',u:'1U',p:3,top:true,tags:['rental pro','13M','fibra','fine-pitch','concierto'],cliente:'Rental profesional · Conciertos · Fine-pitch LED · Stages grandes · Broadcast',fuerte:['13M píxeles — maneja pantallas gigantes','20 puertos Gigabit + 4 fibras','12 capas simultáneas','Low latency 1-2 frames','Modo ByPass con 0 frames'],limit:['Precio alto','No tiene tarjetas modulares','82W de consumo'],alt:{menos:'VX1000 Pro',mas:'MX6000 Pro',compite:'Brompton SX40 · H5'},cierre:'"Un solo equipo reemplaza 2 procesadores + sending cards + fiber converters. Menos rack, menos cableado, menos puntos de falla. El rental profesional que se respeta lo tiene en stock."'},
+{id:'vxpro',n:'VX Pro Series',cat:'ctrl',pitch:'La línea pro clásica — antecesora del VX2000 Pro, aún vigente',px:'8.8M',in:'HDMI·DVI·SDI·DP',out:'16× RJ45',u:'1U',p:2,top:false,tags:['clásico','pro','probado','legacy'],cliente:'Rental que ya tiene stock de la línea · Reemplazos · Segundo equipo',fuerte:['Línea probada con años en el mercado','Repuestos disponibles fácil','Compatible con workflows antiguos'],limit:['Ya hay sucesores más modernos','HDMI 1.4','Sin fibra óptica'],alt:{menos:'VX1000',mas:'VX2000 Pro',compite:'—'},cierre:'"Para quien ya tiene parque VX Pro y necesita sumar una unidad más sin romper compatibilidad."'},
+{id:'vunit3000',n:'Vunit3000',cat:'ctrl',pitch:'Procesador profesional de control — para integraciones complejas',px:'8.8M',in:'Multi-tipo',out:'Multi-output',u:'4U',p:3,top:false,tags:['profesional','integración','broadcast'],cliente:'Integradores · Broadcast · Instalaciones complejas',fuerte:['Arquitectura profesional','Múltiples formatos de entrada','Para integración avanzada'],limit:['Equipo especializado','Requiere técnico con experiencia'],alt:{menos:'VX2000 Pro',mas:'H5',compite:'—'},cierre:'"Cuando la instalación ya no entra en un all-in-one pero el cliente no necesita un splicer completo."'},
+{id:'mctrl660',n:'MCTRL660',cat:'proc',pitch:'LED display controller independiente — el caballito de batalla clásico',px:'2.3M',in:'DVI·HDMI·DP',out:'4× RJ45',u:'1U',p:1,top:false,tags:['clásico','económico','legacy','probado'],cliente:'Instalaciones fijas · Cartelería · Reemplazos de parque existente',fuerte:['Baratísimo','Re probado — existe hace años','Fácil de operar'],limit:['Sin HDMI 2.0','Sin fibra','Ya es modelo viejo'],alt:{menos:'—',mas:'MCTRL4K',compite:'Linsn TS802D'},cierre:'"Cuando el cliente solo necesita enviar señal a una pantalla LED básica y lo único que importa es el precio."'},
+{id:'mctrlr5',n:'MCTRL R5',cat:'proc',pitch:'Controller compacto de entrada — para pantallas chicas de bajo costo',px:'1.3M',in:'HDMI·DVI',out:'2× RJ45',u:'Half 1U',p:1,top:false,tags:['económico','compacto','entrada','básico'],cliente:'Instaladores económicos · Pantallas chicas · Proyectos de bajo presupuesto',fuerte:['Súper compacto','El más barato del catálogo','Fácil de configurar'],limit:['Solo 1.3M px','Sin features profesionales','Solo 2 puertos'],alt:{menos:'—',mas:'MCTRL660',compite:'Colorlight clones'},cierre:'"Para jobs donde el cliente elige entre no poner pantalla o poner algo barato. Al menos le das NovaStar."'},
+{id:'mctrl4k',n:'MCTRL4K',cat:'proc',pitch:'Procesador 4K compacto — el más vendido del segmento medio',px:'8.8M',in:'HDMI 2.0·DP 1.2·DVI',out:'16× RJ45',u:'1U',p:2,top:true,tags:['4k','popular','best-seller','medio'],cliente:'Rental medio · Instalaciones 4K · Eventos corporativos de nivel',fuerte:['4K@60 nativo por HDMI 2.0','16 puertos Gigabit','Mapping avanzado','El "medio" más vendido de NovaStar'],limit:['Sin fibra óptica','Requiere sending cards externas para distancias largas'],alt:{menos:'MCTRL660',mas:'MX40 Pro',compite:'Brompton Tessera SX40'},cierre:'"Es el best-seller del segmento 4K. Si el cliente duda entre varias opciones, este es el que nunca falla. 10 años de reputación respaldan la decisión."'},
+{id:'k10s',n:'K10S',cat:'proc',pitch:'LED display controller económico — función básica, precio mínimo',px:'1.3M',in:'DVI·HDMI',out:'2× RJ45',u:'Half 1U',p:1,top:false,tags:['económico','básico','cartelería'],cliente:'Cartelería básica · Instalaciones de bajo presupuesto · Proyectos educativos',fuerte:['Barato','Compacto','Simple de configurar'],limit:['Specs mínimas','Sin features avanzados'],alt:{menos:'—',mas:'MCTRL660',compite:'Linsn TS802'},cierre:'"El nivel de entrada absoluto — cuando el presupuesto manda."'},
+{id:'k20s',n:'K20S',cat:'proc',pitch:'Controller LED de entrada con más puertos que el K10S',px:'2.6M',in:'HDMI·DVI',out:'4× RJ45',u:'1U',p:1,top:false,tags:['económico','cartelería','fijo'],cliente:'Cartelería · Instalaciones fijas chicas · Presupuesto ajustado',fuerte:['Más económico que MCTRL660','4 puertos Gigabit','Fácil operación'],limit:['Sin HDMI 2.0','Sin features profesionales'],alt:{menos:'K10S',mas:'MCTRL660',compite:'—'},cierre:'"El salto natural desde el K10S cuando el cliente necesita un poco más de carga."'},
+{id:'mx20pro',n:'MX20 Pro',cat:'proc',pitch:'LED display controller profesional — entrada a la familia MX',px:'4.6M',in:'HDMI 2.0·DP·SDI',out:'8× RJ45',u:'1U',p:2,top:false,tags:['pro','medio','hdr'],cliente:'Rental chico · Instalaciones profesionales de tamaño medio',fuerte:['HDR10 nativo','Procesamiento 10-bit','Color profesional','Compatible con ecosistema MX'],limit:['Menos carga que MX40 Pro','8 puertos (vs 16 del MX40)'],alt:{menos:'MCTRL4K',mas:'MX40 Pro',compite:'—'},cierre:'"La puerta de entrada a la línea profesional MX con HDR real. Un paso arriba del MCTRL4K sin saltar al precio del MX40."'},
+{id:'mx30pro',n:'MX30 Pro',cat:'proc',pitch:'LED display controller profesional — escalón intermedio de la línea MX',px:'6.5M',in:'HDMI 2.0·DP 1.2·SDI',out:'10× RJ45',u:'1U',p:2,top:false,tags:['pro','hdr','medio-alto'],cliente:'Rental medio · Broadcast local · Eventos corporativos premium',fuerte:['HDR10 + HLG','10-bit processing','Genlock','Balance precio/performance'],limit:['6.5M px','Sin fibra'],alt:{menos:'MX20 Pro',mas:'MX40 Pro',compite:'MCTRL4K'},cierre:'"El punto dulce de la línea MX — HDR, genlock y 6.5M píxeles a un precio razonable."'},
+{id:'mx40pro',n:'MX40 Pro',cat:'proc',pitch:'Controller profesional 4K con HDR — para broadcast y rental exigente',px:'8.8M',in:'HDMI 2.0·DP 1.2·12G-SDI',out:'16× RJ45',u:'1U',p:3,top:true,tags:['4k','hdr','broadcast','rental pro','popular'],cliente:'Rental pro · Broadcast · Stages medianos · Instalaciones premium',fuerte:['HDR10 / HLG nativo','10-bit end-to-end','12G-SDI input','Low latency','Genlock bi/tri-level'],limit:['Sin fibra óptica integrada','Precio premium'],alt:{menos:'MX20 Pro',mas:'MX2000 Pro',compite:'Brompton Tessera SX40'},cierre:'"Cuando el cliente dice \'HDR\' y \'broadcast\' en la misma frase, este es el equipo. Procesamiento profesional de principio a fin, color perfecto, latencia predecible."'},
+{id:'mx2000pro',n:'MX2000 Pro',cat:'proc',pitch:'Procesador profesional tope de gama — el favorito de los rentals grandes',px:'13M',in:'HDMI 2.0·DP 1.2·12G-SDI·4× fibra',out:'20× RJ45 + 4× fibra',u:'2U',p:4,top:true,tags:['13M','fibra','rental pro','4k','fine-pitch','top'],cliente:'Rental profesional · Conciertos grandes · Fine-pitch premium · Broadcast nacional',fuerte:['13M píxeles','4 fibras + 20 RJ45','HDR completo','Multi-layer avanzado','Todo lo que necesita un rental top'],limit:['Precio alto','2U de rack','Requiere operador con experiencia'],alt:{menos:'MX40 Pro',mas:'MX6000 Pro',compite:'Brompton · Megapixel VR'},cierre:'"Es EL procesador del rental profesional argentino. Si ves un rack de rental top, este equipo está adentro. Reventa altísima, soporte de por vida."'},
+{id:'mx6000pro',n:'MX6000 Pro',cat:'proc',pitch:'El monstruo — 35M píxeles, tope absoluto de la línea MX',px:'35M',in:'HDMI 2.0·DP 1.4·12G-SDI·multi-fibra',out:'Multi-fibra',u:'4U',p:4,top:false,tags:['35M','monstruo','broadcast','xr','gigante'],cliente:'Broadcast nacional · Estudios XR · Shows estadio · Fine-pitch gigantes',fuerte:['35M píxeles — virtualmente sin límite','Procesamiento brutal','HDR profesional','XR ready'],limit:['Precio prohibitivo para pyme','4U de rack','Overkill para la mayoría'],alt:{menos:'MX2000 Pro',mas:'—',compite:'Megapixel HELIOS'},cierre:'"Para cuando el cliente tiene una pantalla que ningún otro procesador le cierra. Estudio virtual, XR, broadcast nacional — esto es lo más grande que NovaStar vende."'},
+{id:'novaprouhdjr',n:'NovaPro UHD Jr',cat:'proc',pitch:'Procesador 4K compacto y versátil — el favorito del instalador',px:'4.4M',in:'HDMI 2.0·DVI·SDI·DP',out:'8× RJ45',u:'1U',p:2,top:true,tags:['4k','compacto','versátil','popular','instalador'],cliente:'Rental chico-medio · Instaladores · Iglesias · Eventos corporativos',fuerte:['4K@60 en formato compacto','Multi-input flexible','Precio sweet spot','Súper popular'],limit:['4.4M px','Sin fibra óptica','Layer básico'],alt:{menos:'MCTRL4K',mas:'MX40 Pro',compite:'—'},cierre:'"Si el cliente pregunta \'¿cuál es el más vendido?\' — este o el VX1000. 4K real en 1U a precio razonable, con el respaldo NovaStar."'},
+{id:'cx40pro',n:'CX40 Pro',cat:'proc',pitch:'Controller profesional de nueva generación — COEX ecosystem',px:'10M',in:'HDMI 2.0·DP 1.4·12G-SDI',out:'16× RJ45',u:'1U',p:3,top:false,tags:['coex','moderno','xr','hdr'],cliente:'Rental pro · XR · Broadcast · Integraciones COEX',fuerte:['Arquitectura COEX moderna','HDR avanzado','Compatible con ecosistema XR','10M píxeles'],limit:['Producto nuevo','Precio alto'],alt:{menos:'MX40 Pro',mas:'MX2000 Pro',compite:'—'},cierre:'"La apuesta de NovaStar al futuro — el ecosistema COEX va a ser el estándar en 5 años. Quien invierte ahora va adelante de la curva."'},
+{id:'hdrmaster4k',n:'HDR-Master 4K',cat:'proc',pitch:'Video processor especializado en HDR de alta calidad',px:'8.8M',in:'HDMI 2.0·DP 1.2·SDI',out:'Multi',u:'1U',p:3,top:false,tags:['hdr','4k','broadcast','color'],cliente:'Broadcast · Producción de contenido · Estudios de color',fuerte:['HDR10+ / HLG / Dolby Vision','Color management profesional','10/12-bit procesamiento'],limit:['Especializado','Precio alto'],alt:{menos:'MX40 Pro',mas:'MX6000 Pro',compite:'—'},cierre:'"Cuando la pantalla es el corazón del contenido y el cliente necesita color científicamente correcto."'},
+{id:'hseries',n:'H Series',cat:'split',pitch:'Familia de video wall splicers modular — arquitectura común de toda la línea H',px:'Variable',in:'Tarjetas intercambiables',out:'Tarjetas intercambiables',u:'Variable',p:3,top:false,tags:['modular','hot-swap','familia'],cliente:'Cualquier proyecto que necesite splicer NovaStar',fuerte:['Arquitectura modular','Hot-swap de tarjetas','Ecosystem completo'],limit:['Es documento de familia — ver H2, H5, H9, etc.'],alt:{menos:'—',mas:'—',compite:'—'},cierre:'"La familia de splicers más completa del mercado — un chasis, muchas posibilidades."'},
+{id:'h2',n:'H2',cat:'split',pitch:'Video wall splicer compacto — entrada a la línea H',px:'8.8M',in:'Tarjetas modulares (4 slots)',out:'Sending cards modulares',u:'2U',p:3,top:false,tags:['splicer','compacto','modular','entrada'],cliente:'Command centers chicos · Salas de control pyme · Video walls básicos',fuerte:['Mismo ADN que H5','Tarjetas modulares intercambiables','2U compacto','Hot-swap'],limit:['Menos slots que H5','Carga menor'],alt:{menos:'—',mas:'H5',compite:'RGBLink X1/X3'},cierre:'"Cuando el cliente quiere la arquitectura modular H pero no necesita los 10 slots del H5. Punto de entrada perfecto al mundo de los splicers."'},
+{id:'h5',n:'H5',cat:'split',pitch:'El video wall splicer referencia — 62M píxeles, hot-swap, control web',px:'62.4M',in:'10 slots modulares',out:'3 slots sending',u:'5U',p:4,top:true,tags:['splicer','62M','modular','command center','top','referencia'],cliente:'Command centers · Broadcast · Teatros · Gobierno · Finanzas · Security',fuerte:['62.4M píxeles con H_4xfiber','10 slots entrada + 3 salida','Hot-swap total','Control web sin instalar','48 capas'],limit:['5U rack','Precio alto','Requiere conocimiento técnico avanzado'],alt:{menos:'H2',mas:'H9',compite:'Barco E2 · Analog Way'},cierre:'"Es el splicer que todos nombran cuando pensás en splicers profesionales. Instalado en bancos, gobiernos y broadcasters de todo el mundo. Reventa brutal."'},
+{id:'h9',n:'H9',cat:'split',pitch:'Splicer de gran formato — más slots y más procesamiento que H5',px:'88M',in:'Multi-slot modular',out:'Multi-slot sending',u:'8U',p:4,top:false,tags:['splicer','gigante','command center','broadcast'],cliente:'Command centers grandes · Broadcast nacional · Control room militar',fuerte:['Más slots que H5','Procesamiento masivo','Redundancia doble'],limit:['8U de rack','Precio muy alto','Solo para proyectos grandes'],alt:{menos:'H5',mas:'H15',compite:'Barco E2 Gen2'},cierre:'"Cuando H5 queda chico. Proyectos de Estado, bancos multinacionales, broadcasters nacionales."'},
+{id:'h15',n:'H15',cat:'split',pitch:'Video wall splicer nivel empresa — capacidad casi ilimitada',px:'130M+',in:'15 slots modulares',out:'Multi-sending',u:'10U',p:4,top:false,tags:['splicer','enterprise','xl','gobierno'],cliente:'Proyectos de Estado · Broadcast nacional · Ejército · Grandes corporativos',fuerte:['Capacidad casi ilimitada','Redundancia n+1','Para proyectos de misión crítica'],limit:['10U rack','Precio tope','Instalación compleja'],alt:{menos:'H9',mas:'H20',compite:'Barco E2 Gen2 · Analog Way Aquilon'},cierre:'"Proyectos donde la pantalla LED es infraestructura crítica del Estado o de una empresa Fortune 500."'},
+{id:'h20',n:'H20',cat:'split',pitch:'El tope absoluto de la línea H — el splicer más grande de NovaStar',px:'160M+',in:'20 slots modulares',out:'Multi-sending redundante',u:'14U',p:4,top:false,tags:['splicer','top','gigante','enterprise'],cliente:'Mega proyectos · Command centers militares · Broadcast estatal',fuerte:['Máxima capacidad del catálogo','Redundancia total','Procesamiento extremo'],limit:['14U rack','Precio estratosférico','Pocas unidades en el país'],alt:{menos:'H15',mas:'—',compite:'Analog Way Aquilon RS4'},cierre:'"El más grande de todos. Solo para proyectos donde falle una pantalla significa que falle el país."'},
+{id:'cvt4km',n:'CVT4K-M',cat:'fiber',pitch:'Conversor de fibra master — extiende señal LED por fibra óptica hasta 10km',px:'4K',in:'Ethernet desde sending card',out:'Fibra óptica',u:'Half 1U',p:2,top:false,tags:['fibra','10km','master'],cliente:'Instalaciones con distancias largas · Arenas · Stadiums',fuerte:['Hasta 10km sin pérdida','4K ready','Hot backup','Compatible con todo NovaStar'],limit:['Requiere par master/slave','Módulos SFP+ aparte'],alt:{menos:'—',mas:'—',compite:'Colorlight fiber'},cierre:'"Cuando entre el procesador y la pantalla hay más de 100 metros — la única solución real. Un CVT4K y te olvidás del problema de distancia."'},
+{id:'cvt4ks',n:'CVT4K-S',cat:'fiber',pitch:'Conversor de fibra slave — el par del CVT4K-M en el lado de la pantalla',px:'4K',in:'Fibra óptica',out:'Ethernet hacia receiving cards',u:'Half 1U',p:2,top:false,tags:['fibra','slave','10km'],cliente:'Va siempre con el CVT4K-M',fuerte:['Par perfecto del CVT4K-M','Instalación simple','Hot backup'],limit:['Solo funciona con su par master'],alt:{menos:'—',mas:'—',compite:'—'},cierre:'"El otro extremo de la fibra. Se vende siempre junto con el CVT4K-M como un kit."'},
+{id:'cvt10',n:'CVT10',cat:'fiber',pitch:'Conversor de fibra de gran carga — 10 millones de píxeles por fibra',px:'10M',in:'Multi-ethernet',out:'Fibra alta capacidad',u:'1U',p:3,top:false,tags:['fibra','alta carga','10M'],cliente:'Rental pro · Eventos con pantallas lejanas · Arenas',fuerte:['10M px por equipo','Gran carga en una sola fibra','Ideal para rental'],limit:['Precio mayor que CVT4K'],alt:{menos:'CVT4K-M',mas:'CVT10 Pro',compite:'—'},cierre:'"Cuando necesitás llevar mucha carga a una sola pantalla lejana. Un solo CVT10 reemplaza varios CVT4K."'},
+{id:'cvt10pro',n:'CVT10 Pro',cat:'fiber',pitch:'La versión pro del CVT10 — más features, más confiabilidad',px:'10M',in:'Multi-ethernet con backup',out:'Fibra redundante',u:'1U',p:3,top:false,tags:['fibra','pro','backup','redundante'],cliente:'Instalaciones críticas · Broadcast · Eventos que no pueden fallar',fuerte:['Backup redundante nativo','Monitoreo avanzado','10M px'],limit:['Precio premium'],alt:{menos:'CVT10',mas:'—',compite:'—'},cierre:'"Para shows donde la fibra NO puede fallar. Redundancia automática y monitoreo en tiempo real."'},
+{id:'cvt310',n:'CVT310',cat:'fiber',pitch:'Fiber converter compacto de nueva generación',px:'4K',in:'Ethernet',out:'Fibra',u:'Half 1U',p:2,top:false,tags:['fibra','compacto','nuevo'],cliente:'Instaladores · Rental chico · Ampliaciones',fuerte:['Diseño compacto','Precio accesible','4K ready'],limit:['Carga menor que CVT10'],alt:{menos:'—',mas:'CVT10',compite:'—'},cierre:'"El fiber converter más accesible de la línea actual. Perfecto para sumar a un kit existente."'},
+{id:'cvt320',n:'CVT320',cat:'fiber',pitch:'Fiber converter con más puertos que el CVT310',px:'6M',in:'Multi-ethernet',out:'Fibra',u:'Half 1U',p:2,top:false,tags:['fibra','compacto','multi'],cliente:'Instalaciones medianas con distancia · Ampliaciones de parque',fuerte:['Más puertos que CVT310','Compacto','Relación precio/carga excelente'],limit:['Menos features que CVT10 Pro'],alt:{menos:'CVT310',mas:'CVT10',compite:'—'},cierre:'"El sweet spot entre el CVT310 económico y el CVT10 profesional."'},
+{id:'et1sg',n:'ET1S-G',cat:'media',pitch:'Media server de entrada — playback profesional sin PC externa',px:'2M',in:'Contenido interno + HDMI loop',out:'HDMI·DP',u:'Compacto',p:2,top:false,tags:['playback','signage','sin pc','cartelería'],cliente:'Cartelería digital · Hoteles · Lobbies · Shoppings · Retail',fuerte:['Sin PC — reproduce solo','Contenido programable por horario','Gestión remota','Playback 24/7'],limit:['No procesa múltiples capas','Contenido preparado previamente'],alt:{menos:'—',mas:'ET2S-G',compite:'BrightSign'},cierre:'"Si el cliente compara con BrightSign — esto es NovaStar y se integra nativamente con el resto de su LED. Sin drivers, sin software raro, todo un mismo ecosistema."'},
+{id:'et2sg',n:'ET2S-G',cat:'media',pitch:'Media server medio — más potencia, más formatos, más flexibilidad',px:'4M',in:'Contenido + inputs externos',out:'Multi HDMI',u:'1U',p:3,top:false,tags:['playback','profesional','signage'],cliente:'Signage profesional · Cadenas de retail · Red de pantallas corporativas',fuerte:['4M px de salida','Gestión de red de pantallas','Scheduling avanzado','Más codecs'],limit:['Precio mayor','Setup más complejo que ET1S'],alt:{menos:'ET1S-G',mas:'ET4S-G',compite:'—'},cierre:'"Para quien ya tiene 10+ pantallas y necesita gestionarlas como una red. Un servidor central, contenido sincronizado."'},
+{id:'et4sg',n:'ET4S-G',cat:'media',pitch:'Media server de gran capacidad — para redes de signage empresariales',px:'8M',in:'Multi + cloud',out:'Multi output',u:'2U',p:3,top:false,tags:['playback','empresa','cloud','red'],cliente:'Redes empresariales · Cadenas grandes · Sistemas de signage nacional',fuerte:['Gestión cloud','Alta capacidad','Sync entre múltiples servidores','Redundancia'],limit:['Solo para proyectos grandes','Precio alto'],alt:{menos:'ET2S-G',mas:'—',compite:'Scala · Signagelive'},cierre:'"Cuando el cliente tiene 50 sucursales y quiere que todas muestren lo mismo al mismo tiempo. Una sola consola, todo el país sincronizado."'},
+{id:'tu4kpro',n:'TU4K Pro',cat:'media',pitch:'Playback controller 4K — reproduce y controla al mismo tiempo',px:'8.8M',in:'Contenido interno + HDMI',out:'Directo a LED',u:'1U',p:3,top:false,tags:['playback','4k','todo en uno'],cliente:'Cartelería premium · Rental fijo · Instalaciones 4K sin PC',fuerte:['4K60 playback nativo','Reproduce Y envía a LED','Sin PC externa necesaria','HDR support'],limit:['Precio alto','Contenido limitado a lo que cargás'],alt:{menos:'ET2S-G',mas:'—',compite:'BrightSign XT'},cierre:'"Instalaciones fijas 4K donde quitar la PC del rack es prioridad. Menos puntos de falla, más estabilidad."'},
+{id:'tu20pro',n:'TU20 Pro / TU15 Pro',cat:'media',pitch:'Línea de playback profesional — TU20 más carga, TU15 más compacto',px:'13M / 6.5M',in:'Contenido + inputs',out:'Multi',u:'1U',p:3,top:false,tags:['playback','profesional','fijo'],cliente:'Instalaciones fijas premium · Museos · Experiencias inmersivas',fuerte:['Playback profesional 4K','Multi-layer nativo','Sync multi-device','Confiabilidad 24/7'],limit:['Precio alto','Especializado en playback fijo'],alt:{menos:'TU4K Pro',mas:'—',compite:'—'},cierre:'"Para experiencias inmersivas donde el contenido es fijo pero de calidad broadcast. Museos, show rooms de autos, flagships."'},
+{id:'coexxr',n:'COEX xR Virtual',cat:'coex',pitch:'Solución completa para producción virtual XR — estudios de cine y broadcast',px:'Variable',in:'Tracking + cámara + contenido',out:'LED wall',u:'Sistema',p:4,top:false,tags:['xr','virtual production','estudio','cine','broadcast'],cliente:'Estudios de producción virtual · Cine · Broadcast premium · Agencias grandes',fuerte:['Ecosystem completo XR','Integración con tracking (Mo-Sys, Stype)','Compatible con Unreal Engine','El futuro del broadcast'],limit:['Requiere infraestructura completa','Curva de aprendizaje alta','Precio de proyecto'],alt:{menos:'—',mas:'—',compite:'ROE · disguise'},cierre:'"El mercado XR explotó desde The Mandalorian. Cada vez más clientes piden producción virtual. Este es el ticket de entrada de NovaStar al rubro — integración nativa con todo el ecosistema."'},
+{id:'coexncp',n:'COEX NCP',cat:'coex',pitch:'Sistema de archivos NCP para flujos de trabajo COEX',px:'N/A',in:'Archivos NCP',out:'N/A',u:'N/A',p:2,top:false,tags:['coex','workflow','software'],cliente:'Instaladores COEX · Rental con equipos COEX',fuerte:['Workflow optimizado','Integración completa COEX'],limit:['Solo aplica a ecosystem COEX'],alt:{menos:'—',mas:'—',compite:'—'},cierre:'"Parte del ecosystem COEX — para quien ya está metido en ese flujo de trabajo."'},
+{id:'coexbackup',n:'COEX Backup',cat:'coex',pitch:'Sistema de redundancia y backup para instalaciones COEX',px:'N/A',in:'N/A',out:'N/A',u:'N/A',p:2,top:false,tags:['coex','backup','redundancia'],cliente:'Instalaciones críticas COEX',fuerte:['Failover automático','Redundancia total'],limit:['Solo COEX ecosystem'],alt:{menos:'—',mas:'—',compite:'—'},cierre:'"Para proyectos COEX donde la pantalla no puede quedar en negro nunca."'},
+{id:'mfn300',n:'MFN300',cat:'card',pitch:'Tarjeta multifunción — agrega sensores y control al sistema LED',px:'N/A',in:'Múltiples sensores',out:'Control a receiving cards',u:'Tarjeta',p:1,top:false,tags:['card','sensor','monitoring'],cliente:'Instalaciones fijas que necesitan monitoreo',fuerte:['Temperatura, humedad, brillo automático','Control preciso','Se monta en rack del LED'],limit:['Requiere compatibilidad con receiving cards'],alt:{menos:'—',mas:'MFN400',compite:'—'},cierre:'"El que agrega inteligencia a una pantalla LED básica sin cambiar el controlador principal."'},
+{id:'mfn400',n:'MFN400',cat:'card',pitch:'Tarjeta multifunción de nueva generación — más features',px:'N/A',in:'Múltiples sensores + control',out:'Control extendido',u:'Tarjeta',p:1,top:false,tags:['card','sensor','nuevo'],cliente:'Instalaciones premium con monitoreo avanzado',fuerte:['Más features que MFN300','Integración con VMP','Nuevas funciones de control'],limit:['Precio mayor'],alt:{menos:'MFN300',mas:'—',compite:'—'},cierre:'"La evolución natural del MFN300 para instalaciones que requieren control total."'},
+{id:'mon400',n:'MON400',cat:'card',pitch:'Tarjeta de monitoreo — supervisa el estado del sistema LED',px:'N/A',in:'Datos del sistema',out:'Reporting',u:'Tarjeta',p:1,top:false,tags:['card','monitoring','alertas'],cliente:'Instalaciones críticas · Señalización que requiere uptime',fuerte:['Monitoreo continuo','Alertas automáticas','Integra con VMP'],limit:['Solo monitoreo, no control'],alt:{menos:'—',mas:'—',compite:'—'},cierre:'"Para clientes que necesitan saber ANTES que la pantalla falle. Prevención, no reacción."'},
+{id:'ns060',n:'NS060 Light Sensor',cat:'card',pitch:'Sensor de luz ambiente — ajusta brillo automáticamente',px:'N/A',in:'Luz ambiente',out:'Control brillo',u:'Sensor',p:1,top:false,tags:['sensor','brillo','auto','outdoor'],cliente:'Outdoor · Escaparates · Cualquier pantalla con luz variable',fuerte:['Ajuste automático día/noche','Ahorra energía','Protege vida útil de la pantalla'],limit:['Requiere controlador compatible'],alt:{menos:'—',mas:'—',compite:'—'},cierre:'"El accesorio que te evita un reclamo: pantalla que de día se ve oscura y de noche encandila. Se instala en 5 minutos y soluciona el problema para siempre."'},
+{id:'mth310',n:'MTH310',cat:'card',pitch:'Sensor de temperatura y humedad — protege la pantalla',px:'N/A',in:'Temp/humedad ambiente',out:'Datos al controlador',u:'Sensor',p:1,top:false,tags:['sensor','temp','outdoor','preventivo'],cliente:'Outdoor · Pantallas en ambientes exigentes · Equipos críticos',fuerte:['Monitoreo continuo','Alerta preventiva','Integración con VMP'],limit:['Solo monitoreo, no control de clima'],alt:{menos:'—',mas:'—',compite:'—'},cierre:'"Prevenís fallas antes que pasen. Una pantalla outdoor sin sensor de temp es como manejar sin velocímetro."'},
+{id:'calcube',n:'CalCube MiniLED',cat:'card',pitch:'Sistema de calibración para MiniLED — unifica color gabinete a gabinete',px:'N/A',in:'Cámara de calibración',out:'Data de calibración',u:'Sistema',p:3,top:false,tags:['calibración','miniled','color','pro'],cliente:'Fábricas de LED · Servicios técnicos premium · Broadcast',fuerte:['Calibración profesional MiniLED','Uniformidad perfecta','Tech avanzada'],limit:['Equipo especializado','No es para instalador común'],alt:{menos:'—',mas:'—',compite:'Radiant Vision'},cierre:'"Solo para servicios técnicos especializados o fábricas. El que lo usa sabe exactamente por qué lo necesita."'},
+{id:'novalct',n:'NovaLCT',cat:'soft',pitch:'EL software de configuración de pantallas LED — estándar de la industria',px:'N/A',in:'PC Windows',out:'Control total sending/receiving',u:'Software',p:0,top:true,tags:['software','gratis','standard','configuración','esencial'],cliente:'TODO técnico LED del mundo',fuerte:['GRATIS','El estándar mundial','Configura cualquier pantalla NovaStar','Soporte para 10+ años de equipos'],limit:['Solo Windows','Interfaz de los 2010s'],alt:{menos:'—',mas:'VMP',compite:'Colorlight LEDVISION'},cierre:'"Es gratis y lo tiene que tener todo técnico LED. Punto. Ningún argumento de venta — es parte del kit básico como el multímetro."'},
+{id:'novalctsync',n:'NovaLCT Sync',cat:'soft',pitch:'Módulo de sincronización de NovaLCT para control system sync',px:'N/A',in:'PC',out:'Sync multi-device',u:'Software',p:0,top:false,tags:['software','sync','gratis'],cliente:'Instaladores con múltiples controladores',fuerte:['Sincronización entre equipos','Gratis','Parte del ecosystem NovaLCT'],limit:['Setup especializado'],alt:{menos:'—',mas:'—',compite:'—'},cierre:'"Cuando tenés múltiples VX/MX y necesitás que todos estén en sync — esto lo resuelve sin comprar nada."'},
+{id:'novalctmedia',n:'NovaLCT Multimedia Player',cat:'soft',pitch:'Módulo de NovaLCT para playback de contenido multimedia',px:'N/A',in:'PC',out:'Playback',u:'Software',p:0,top:false,tags:['software','playback','gratis'],cliente:'Usuarios de NovaLCT con necesidad de playback simple',fuerte:['Gratis','Integrado con NovaLCT'],limit:['Feature básica'],alt:{menos:'—',mas:'ET1S-G',compite:'—'},cierre:'"Feature gratis que suma valor al NovaLCT que ya tenés."'},
+{id:'novaclbcab',n:'NovaCLB Cabinet',cat:'soft',pitch:'Calibración de gabinetes LED individual — para fábrica o servicio técnico',px:'N/A',in:'Cámara + gabinete',out:'Archivo de calibración',u:'Software',p:2,top:false,tags:['software','calibración','cabinet','fábrica'],cliente:'Fábricas LED · Servicios técnicos · Reparación de gabinetes',fuerte:['Calibración por gabinete','Mejora uniformidad','Estándar de fábrica NovaStar'],limit:['Requiere cámara de calibración','Software pago'],alt:{menos:'—',mas:'NovaCLB Screen',compite:'Radiant'},cierre:'"Cuando reparás un gabinete o lo cambiás y querés que quede IGUAL al resto de la pantalla. Sin esto, se ve el parche."'},
+{id:'novaclbscreen',n:'NovaCLB Screen',cat:'soft',pitch:'Calibración de pantalla completa en campo — uniformidad perfecta',px:'N/A',in:'Cámara + pantalla entera',out:'Calibración aplicada',u:'Software',p:3,top:false,tags:['software','calibración','full-screen','profesional'],cliente:'Instaladores premium · Rental pro · Proyectos donde el color importa',fuerte:['Calibración de pantalla completa','Resultado visible y medible','Impressiona al cliente'],limit:['Proceso largo','Requiere setup de cámara','Software pago'],alt:{menos:'NovaCLB Cabinet',mas:'—',compite:'—'},cierre:'"Antes y después es el día y la noche. Cliente premium, paga premium — incluí calibración en cada instalación y diferenciate del resto."'},
+{id:'vcan',n:'V-Can',cat:'soft',pitch:'Software de control de video profesional — control multi-equipo',px:'N/A',in:'PC',out:'Control multi-procesadores',u:'Software',p:0,top:false,tags:['software','control','gratis','multi'],cliente:'Operadores de show · Rental pro',fuerte:['Gratis','Control multi-equipo','Interfaz show-oriented'],limit:['Curva de aprendizaje'],alt:{menos:'—',mas:'VMP',compite:'—'},cierre:'"Para shows donde se operan varios equipos a la vez. Gratis y poderoso — el que aprende a usarlo no vuelve atrás."'},
+{id:'vmp',n:'VMP',cat:'soft',pitch:'Vision Management Platform — el futuro del control NovaStar',px:'N/A',in:'PC',out:'Control ecosystem completo',u:'Software',p:2,top:true,tags:['software','moderno','gestión','futuro'],cliente:'Instaladores pro · Integradores · Rental pro',fuerte:['Interfaz moderna','Control centralizado','Compatible con COEX','Future-proof'],limit:['No cubre 100% los equipos legacy todavía','Versión en evolución'],alt:{menos:'NovaLCT',mas:'—',compite:'—'},cierre:'"El reemplazo moderno del NovaLCT. En 5 años todos vamos a estar usando esto. El que aprende ahora, va adelante."'},
+{id:'vicp',n:'VICP',cat:'cloud',pitch:'Plataforma visual inteligente — gestión de contenido y equipos en la nube',px:'N/A',in:'Cloud',out:'Control remoto',u:'Plataforma',p:2,top:false,tags:['cloud','saas','gestión','remoto'],cliente:'Cadenas con múltiples locaciones · Redes de signage',fuerte:['Gestión remota cloud','Visual management','Integra equipos y contenido'],limit:['Requiere conexión internet','Suscripción'],alt:{menos:'ViPlex',mas:'VNNOX',compite:'—'},cierre:'"Gestionás 100 pantallas desde tu laptop, desde cualquier parte del mundo. El cliente grande lo necesita y no lo sabe — mostraselo."'},
+{id:'viplex',n:'ViPlex Express',cat:'cloud',pitch:'Software de gestión de signage — el más popular para cartelería NovaStar',px:'N/A',in:'PC/móvil',out:'Gestión Taurus',u:'Software',p:0,top:true,tags:['signage','gratis','popular','cartelería'],cliente:'Cartelería NovaStar · Hoteles · Retail · Usuarios de Taurus',fuerte:['Gratis','Interfaz simple','Para equipos Taurus','Programación por horario'],limit:['Solo para equipos Taurus','Features básicos'],alt:{menos:'—',mas:'ViPlex Studio',compite:'—'},cierre:'"Si vendés reproductores Taurus, el cliente necesita ViPlex sí o sí. Gratis, en español, intuitivo. Cero fricción en la venta."'},
+{id:'viplexstudio',n:'ViPlex Express Studio',cat:'cloud',pitch:'La versión pro de ViPlex — más features, más control',px:'N/A',in:'PC',out:'Gestión avanzada',u:'Software',p:1,top:false,tags:['signage','studio','avanzado'],cliente:'Usuarios pro de ViPlex · Integradores de signage',fuerte:['Features avanzados','Scheduling complejo','Multi-usuario'],limit:['Pago','Para usuarios más técnicos'],alt:{menos:'ViPlex Express',mas:'VNNOX',compite:'—'},cierre:'"Cuando el cliente ya usa ViPlex y se quedó corto — el upgrade natural."'},
+{id:'vnnox',n:'VNNOX-CARE',cat:'cloud',pitch:'Plataforma cloud premium de NovaStar — gestión empresarial',px:'N/A',in:'Cloud',out:'Gestión enterprise',u:'SaaS',p:3,top:false,tags:['cloud','enterprise','saas','premium'],cliente:'Empresas con red nacional de pantallas · Retail cadenas · Signage nacional',fuerte:['Solución cloud completa','Escalable a miles de pantallas','Soporte NovaStar directo','Analytics integrados'],limit:['Suscripción anual','Para proyectos grandes'],alt:{menos:'ViPlex',mas:'—',compite:'Signagelive · Scala'},cierre:'"La apuesta SaaS de NovaStar para competir con los grandes del signage internacional. Cliente corporativo grande, solución seria."'},
+{id:'kompassfx2',n:'Kompass FX2',cat:'kompass',pitch:'Software de playback multimedia — reproducción profesional sincronizada',px:'N/A',in:'PC',out:'Multi-display sync',u:'Software',p:2,top:false,tags:['kompass','playback','sync'],cliente:'Eventos · Proyectores · Video walls sincronizados',fuerte:['Sync multi-display preciso','Playback profesional','Multimedia avanzado'],limit:['Curva de aprendizaje','Licencia por máquina'],alt:{menos:'—',mas:'Kompass FX3 Pro',compite:'Watchout · Pandoras Box'},cierre:'"Compite directo con Watchout y Pandoras Box. Calidad igual o superior, precio mucho menor, y soporte NovaStar."'},
+{id:'kompassfx3',n:'Kompass FX3 Pro',cat:'kompass',pitch:'La versión pro top de la línea Kompass — playback multimedia profesional',px:'N/A',in:'PC potente',out:'Multi-display pro',u:'Software',p:3,top:false,tags:['kompass','pro','top','multimedia','proyección'],cliente:'Rental pro · Eventos grandes · Shows de mapping',fuerte:['Tope de línea','Edge blending','Warping','Multi-output sync','Timeline avanzado'],limit:['Precio alto','PC dedicada potente requerida'],alt:{menos:'Kompass FX2',mas:'—',compite:'Watchout Production · Pandoras Box'},cierre:'"El Watchout killer de NovaStar. Mismas features, mejor integración con hardware NovaStar, mitad de precio. El mapping profesional tiene nuevo estándar."'},
+{id:'kompassmx2',n:'Kompass MX2',cat:'kompass',pitch:'Playback multimedia integrado con los procesadores MX',px:'N/A',in:'Contenido interno',out:'Integración MX',u:'Software',p:2,top:false,tags:['kompass','mx','integrado'],cliente:'Usuarios de procesadores MX · Instalaciones integradas',fuerte:['Integración nativa con MX','Workflow unificado','Menos equipos en el rack'],limit:['Solo con ecosystem MX'],alt:{menos:'—',mas:'Kompass MX3',compite:'—'},cierre:'"Para quien tiene MX y quiere playback sin agregar otro equipo al rack."'},
+{id:'kompassmx3',n:'Kompass MX3',cat:'kompass',pitch:'Evolución del Kompass MX — más potencia para procesadores MX modernos',px:'N/A',in:'Contenido + inputs',out:'Integración MX avanzada',u:'Software',p:3,top:false,tags:['kompass','mx','pro','integrado'],cliente:'Usuarios de MX2000 Pro / MX6000 Pro',fuerte:['Potencia para equipos MX tope','Features modernos','4K/HDR ready'],limit:['Solo MX modernos','Precio alto'],alt:{menos:'Kompass MX2',mas:'—',compite:'—'},cierre:'"Si tenés un MX2000 Pro o MX6000 Pro y querés exprimirlo al máximo — este es el software que lo acompaña."'}
+];
+
+const CATS={ctrl:{n:'Controllers All-in-One',em:'🎛️',d:'Todo en uno: procesan + controlan',c:'#0070c9'},proc:{n:'Video Processors',em:'🎬',d:'Procesadores y display controllers',c:'#6d28d9'},split:{n:'Video Wall Splicers',em:'🖥️',d:'Splicers modulares de alta gama',c:'#059669'},fiber:{n:'Fiber Converters',em:'📡',d:'Extensión por fibra óptica',c:'#d97706'},media:{n:'Media Servers',em:'💾',d:'Playback sin PC externa',c:'#dc2626'},coex:{n:'COEX / XR',em:'🎭',d:'Producción virtual y XR',c:'#db2777'},card:{n:'Cards & Sensors',em:'🛠️',d:'Tarjetas y sensores',c:'#475569'},soft:{n:'Software',em:'💻',d:'Software para PC',c:'#0891b2'},cloud:{n:'Cloud & Signage',em:'☁️',d:'Plataformas cloud',c:'#7c3aed'},kompass:{n:'Kompass',em:'🎞️',d:'Playback multimedia pro',c:'#be123c'}};
+
+const PRICE=['GRATIS','💰','💰💰','💰💰💰','💰💰💰💰'];
+
+// ========== ESTADO ==========
+let favs=JSON.parse(localStorage.getItem('js_favs')||'[]');
+let cmpList=[];
+let asstState={};
+
+// ========== HELPERS ==========
+function $(id){return document.getElementById(id)}
+function saveFavs(){localStorage.setItem('js_favs',JSON.stringify(favs))}
+function isFav(id){return favs.includes(id)}
+function toggleFav(id){if(isFav(id))favs=favs.filter(x=>x!==id);else favs.push(id);saveFavs();renderFavs();render()}
+function inCmp(id){return cmpList.includes(id)}
+function toggleCmp(id){if(inCmp(id))cmpList=cmpList.filter(x=>x!==id);else if(cmpList.length<3)cmpList.push(id);renderCmp()}
+
+// ========== RENDER TARJETA DE EQUIPO (grid) ==========
+function eqCard(e){
+  const c=CATS[e.cat];
+  const stats=[];
+  if(e.px && e.px!=='N/A')stats.push('<span class="eq-stat"><strong>'+e.px+'</strong> px</span>');
+  if(e.out && e.out!=='N/A')stats.push('<span class="eq-stat">'+e.out+'</span>');
+  if(e.u && e.u!=='N/A')stats.push('<span class="eq-stat">'+e.u+'</span>');
+  stats.push('<span class="eq-stat">'+PRICE[e.p]+'</span>');
+  const tags=(e.tags||[]).slice(0,3).map(t=>'<span class="eq-tag">'+t+'</span>').join('');
+  return '<div class="eq '+(e.top?'top':'')+'" onclick="showDetail(\''+e.id+'\')">'+
+    '<div class="eq-cat" style="color:'+c.c+'">'+c.em+' '+c.n+'</div>'+
+    '<div class="eq-n">'+e.n+'</div>'+
+    '<div class="eq-p">'+e.pitch+'</div>'+
+    '<div class="eq-stats">'+stats.join('')+'</div>'+
+    '<div class="eq-tags">'+tags+'</div>'+
+    '</div>';
+}
+
+// ========== RENDER INICIO ==========
+function renderInicio(){
+  // Categorías
+  const cats=Object.entries(CATS).map(([k,c])=>{
+    const count=EQ.filter(e=>e.cat===k).length;
+    return '<div class="cat-item" onclick="goCat(\''+k+'\')">'+
+      '<span class="cat-em">'+c.em+'</span>'+
+      '<div class="cat-n">'+c.n+'</div>'+
+      '<div class="cat-c">'+count+' equipos</div>'+
+      '<div class="cat-bar" style="background:'+c.c+'"></div>'+
+    '</div>';
+  }).join('');
+  $('cat-grid').innerHTML=cats;
+  // Top ventas (primeros 6)
+  const top=EQ.filter(e=>e.top).slice(0,6);
+  $('top-grid').innerHTML=top.map(eqCard).join('');
+}
+
+// ========== RENDER TODOS ==========
+let todosFilter='all';
+function renderTodos(){
+  // Filtros
+  const filters=[['all','Todos ('+EQ.length+')']];
+  Object.entries(CATS).forEach(([k,c])=>{
+    const n=EQ.filter(e=>e.cat===k).length;
+    filters.push([k,c.em+' '+c.n+' ('+n+')']);
+  });
+  $('todos-filters').innerHTML=filters.map(([k,lbl])=>
+    '<button class="fchip '+(todosFilter===k?'on':'')+'" onclick="setTodosFilter(\''+k+'\')">'+lbl+'</button>'
+  ).join('');
+  // Grid
+  const list=todosFilter==='all'?EQ:EQ.filter(e=>e.cat===todosFilter);
+  $('todos-grid').innerHTML=list.map(eqCard).join('');
+}
+function setTodosFilter(k){todosFilter=k;renderTodos()}
+
+// ========== RENDER TOP ==========
+function renderTop(){
+  const top=EQ.filter(e=>e.top);
+  $('top-full-grid').innerHTML=top.map(eqCard).join('');
+}
+
+// ========== BUSCADOR ==========
+let searchFilter='all';
+function renderSearch(){
+  const filters=[['all','Todo'],['ctrl','🎛️'],['proc','🎬'],['split','🖥️'],['fiber','📡'],['media','💾'],['soft','💻'],['kompass','🎞️']];
+  $('search-filters').innerHTML=filters.map(([k,lbl])=>
+    '<button class="fchip '+(searchFilter===k?'on':'')+'" onclick="setSearchFilter(\''+k+'\')">'+lbl+'</button>'
+  ).join('');
+  doSearch();
+}
+function setSearchFilter(k){searchFilter=k;renderSearch()}
+function doSearch(){
+  const q=($('si').value||'').toLowerCase().trim();
+  let list=EQ;
+  if(searchFilter!=='all')list=list.filter(e=>e.cat===searchFilter);
+  if(q){
+    list=list.filter(e=>{
+      const hay=[e.n,e.pitch,e.px,e.in,e.out,e.cliente,(e.tags||[]).join(' '),(e.fuerte||[]).join(' '),(e.limit||[]).join(' ')].join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+  }
+  if(!list.length){
+    $('sres').innerHTML='<div class="empty"><div class="em">😕</div><p>Sin resultados para "'+q+'"</p></div>';
+  } else {
+    $('sres').innerHTML='<div class="eq-grid">'+list.map(eqCard).join('')+'</div>';
+  }
+}
+
+// ========== DETALLE ==========
+function showDetail(id){
+  const e=EQ.find(x=>x.id===id);
+  if(!e)return;
+  const c=CATS[e.cat];
+  const stats=[];
+  if(e.px && e.px!=='N/A')stats.push('<div class="det-stat"><div class="v">'+e.px+'</div><div class="l">PÍXELES</div></div>');
+  if(e.out && e.out!=='N/A')stats.push('<div class="det-stat"><div class="v">'+e.out.split(' ')[0]+'</div><div class="l">SALIDAS</div></div>');
+  if(e.u && e.u!=='N/A')stats.push('<div class="det-stat"><div class="v">'+e.u+'</div><div class="l">RACK</div></div>');
+  stats.push('<div class="det-stat"><div class="v">'+PRICE[e.p]+'</div><div class="l">PRECIO</div></div>');
+
+  const html='<button class="det-back" onclick="goBack()">← Volver</button>'+
+    '<div class="det-hero" style="background:linear-gradient(135deg,'+c.c+',#6d28d9)">'+
+      '<div class="ec">'+c.em+' '+c.n.toUpperCase()+(e.top?' · ⭐ TOP VENTAS':'')+'</div>'+
+      '<h2>'+e.n+'</h2>'+
+      '<div class="pt">'+e.pitch+'</div>'+
+      '<div class="det-stats">'+stats.join('')+'</div>'+
+    '</div>'+
+
+    '<div class="card">'+
+      '<div class="ch"><div class="ci" style="background:#dbeafe">🎯</div><div><div class="ct">¿Para qué cliente?</div></div></div>'+
+      '<p style="font-size:12px;color:var(--s);line-height:1.6">'+e.cliente+'</p>'+
+    '</div>'+
+
+    '<div class="card">'+
+      '<div class="ch"><div class="ci" style="background:#ede9fe">📊</div><div><div class="ct">Specs de venta</div></div></div>'+
+      (e.px&&e.px!=='N/A'?'<div class="row"><span class="rl">Píxeles máx</span><span class="rv">'+e.px+'</span></div>':'')+
+      (e.in?'<div class="row"><span class="rl">Entradas</span><span class="rv">'+e.in+'</span></div>':'')+
+      (e.out&&e.out!=='N/A'?'<div class="row"><span class="rl">Salidas</span><span class="rv">'+e.out+'</span></div>':'')+
+      (e.u&&e.u!=='N/A'?'<div class="row"><span class="rl">Rack</span><span class="rv">'+e.u+'</span></div>':'')+
+      '<div class="row"><span class="rl">Rango precio</span><span class="rv">'+PRICE[e.p]+'</span></div>'+
+    '</div>'+
+
+    '<div class="card">'+
+      '<div class="ch"><div class="ci" style="background:#d1fae5">✅</div><div><div class="ct">Puntos fuertes</div><div class="cs">Por qué elegirlo</div></div></div>'+
+      '<ul class="list-pros">'+(e.fuerte||[]).map(x=>'<li>'+x+'</li>').join('')+'</ul>'+
+    '</div>'+
+
+    '<div class="card">'+
+      '<div class="ch"><div class="ci" style="background:#fef3c7">⚠️</div><div><div class="ct">Limitaciones honestas</div><div class="cs">Para no vender humo</div></div></div>'+
+      '<ul class="list-cons">'+(e.limit||[]).map(x=>'<li>'+x+'</li>').join('')+'</ul>'+
+    '</div>'+
+
+    '<div class="card">'+
+      '<div class="ch"><div class="ci" style="background:#ede9fe">🆚</div><div><div class="ct">Alternativas</div></div></div>'+
+      '<div class="alt-grid">'+
+        '<div class="alt-item"><div class="al">Más barato</div><div class="av">'+e.alt.menos+'</div></div>'+
+        '<div class="alt-item"><div class="al">Más grande</div><div class="av">'+e.alt.mas+'</div></div>'+
+        '<div class="alt-item"><div class="al">Compite con</div><div class="av">'+e.alt.compite+'</div></div>'+
+      '</div>'+
+    '</div>'+
+
+    '<div class="card" style="background:linear-gradient(135deg,#fef9c3,#fef3c7);border-color:#eab308">'+
+      '<div class="ch"><div class="ci" style="background:#fde68a">💰</div><div><div class="ct">Argumento de cierre</div><div class="cs">Copiá y pegá al cliente</div></div></div>'+
+      '<div class="pitch-close">'+e.cierre+'</div>'+
+    '</div>'+
+
+    '<button class="fav-btn '+(isFav(e.id)?'on':'')+'" onclick="toggleFav(\''+e.id+'\');showDetail(\''+e.id+'\')">'+
+      (isFav(e.id)?'❤️ En favoritos — tocá para quitar':'🤍 Agregar a favoritos')+
+    '</button>'+
+
+    '<button class="fav-btn '+(inCmp(e.id)?'on':'')+'" onclick="toggleCmp(\''+e.id+'\');showDetail(\''+e.id+'\')" style="margin-top:8px">'+
+      (inCmp(e.id)?'🆚 Agregado al comparador ('+cmpList.length+'/3)':'🆚 Agregar al comparador')+
+    '</button>';
+
+  $('s-detalle').innerHTML=html;
+  document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));
+  $('s-detalle').classList.add('on');
+  window.scrollTo(0,0);
+}
+
+let prevSec='inicio';
+function goBack(){
+  document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));
+  $('s-'+prevSec).classList.add('on');
+  window.scrollTo(0,0);
+}
+
+function goCat(k){
+  todosFilter=k;
+  document.querySelectorAll('.nb').forEach(x=>x.classList.remove('on'));
+  document.querySelector('.nb[data-t="todos"]').classList.add('on');
+  document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));
+  $('s-todos').classList.add('on');
+  prevSec='todos';
+  renderTodos();
+  window.scrollTo(0,0);
+}
+
+// ========== ASISTENTE ==========
+const asstQs=[
+  {k:'tipo',q:'1️⃣ ¿Qué tipo de proyecto es?',opts:[
+    {v:'rental',lbl:'Rental / Eventos',em:'🎪'},
+    {v:'fijo',lbl:'Instalación fija',em:'🏢'},
+    {v:'broadcast',lbl:'Broadcast / TV',em:'📺'},
+    {v:'signage',lbl:'Cartelería',em:'🏬'}
+  ]},
+  {k:'px',q:'2️⃣ ¿Qué tamaño tiene la pantalla?',opts:[
+    {v:'xs',lbl:'Chica (<2M px)',em:'🟢'},
+    {v:'s',lbl:'Media (2-7M)',em:'🟡'},
+    {v:'m',lbl:'Grande (7-13M)',em:'🟠'},
+    {v:'l',lbl:'Gigante (+13M)',em:'🔴'}
+  ]},
+  {k:'dist',q:'3️⃣ ¿Distancia entre procesador y pantalla?',opts:[
+    {v:'short',lbl:'Menos de 100m',em:'📍'},
+    {v:'long',lbl:'Más de 100m',em:'📏'}
+  ]},
+  {k:'budget',q:'4️⃣ ¿Cuál es el presupuesto del cliente?',opts:[
+    {v:'low',lbl:'Ajustado',em:'💰'},
+    {v:'mid',lbl:'Medio',em:'💰💰'},
+    {v:'high',lbl:'Alto — quiere lo mejor',em:'💰💰💰'}
+  ]}
+];
+
+function renderAsist(){
+  let html='';
+  asstQs.forEach(q=>{
+    const sel=asstState[q.k];
+    html+='<div class="asst-q"><h3>'+q.q+'</h3><div class="asst-opts">';
+    q.opts.forEach(o=>{
+      html+='<button class="asst-opt '+(sel===o.v?'sel':'')+'" onclick="setAsst(\''+q.k+'\',\''+o.v+'\')"><span class="em">'+o.em+'</span>'+o.lbl+'</button>';
+    });
+    html+='</div></div>';
+  });
+  // Recomendación
+  if(Object.keys(asstState).length===asstQs.length){
+    html+='<div class="asst-reco"><h3>✅ Equipos recomendados</h3>'+calcReco()+'</div>';
+    html+='<button class="fav-btn" onclick="asstState={};renderAsist()" style="margin-top:12px">🔄 Volver a calcular</button>';
+  }
+  $('asst-content').innerHTML=html;
+}
+function setAsst(k,v){asstState[k]=v;renderAsist()}
+function calcReco(){
+  const s=asstState;
+  let reco=[];
+  // Lógica simple de recomendación
+  if(s.tipo==='rental'){
+    if(s.px==='xs')reco=['vx1000','novaprouhdjr'];
+    else if(s.px==='s')reco=['vx1000','novaprouhdjr','mctrl4k'];
+    else if(s.px==='m')reco=['vx1000pro','mx40pro','mctrl4k'];
+    else reco=['vx2000pro','mx2000pro'];
+  } else if(s.tipo==='fijo'){
+    if(s.px==='xs')reco=['vc4','mctrl660','k20s'];
+    else if(s.px==='s')reco=['vc4','mctrl4k','novaprouhdjr'];
+    else if(s.px==='m')reco=['mctrl4k','mx40pro','vx1000pro'];
+    else reco=['mx2000pro','h5'];
+  } else if(s.tipo==='broadcast'){
+    if(s.px==='xs'||s.px==='s')reco=['mx40pro','mx30pro'];
+    else if(s.px==='m')reco=['mx40pro','mx2000pro','hdrmaster4k'];
+    else reco=['mx6000pro','h5','h9'];
+  } else {
+    if(s.px==='xs')reco=['vc4','et1sg','viplex'];
+    else if(s.px==='s')reco=['et2sg','tu4kpro','vc4'];
+    else reco=['et4sg','tu20pro','vnnox'];
+  }
+  // Filtrar por distancia
+  if(s.dist==='long'){
+    // Si necesita fibra, priorizar equipos con fibra o sumar fiber converter
+    const hasF=reco.filter(id=>{const e=EQ.find(x=>x.id===id);return (e.out||'').includes('fibra')||(e.tags||[]).includes('fibra')});
+    if(!hasF.length)reco.push('cvt4km');
+  }
+  // Ajustar por presupuesto
+  if(s.budget==='low')reco=reco.filter(id=>{const e=EQ.find(x=>x.id===id);return e.p<=2});
+  if(s.budget==='high')reco=reco.filter(id=>{const e=EQ.find(x=>x.id===id);return e.p>=2});
+  if(!reco.length)reco=['vx1000','mctrl4k'];
+  reco=reco.slice(0,3);
+  return '<div class="eq-grid" style="margin-top:8px">'+reco.map(id=>{const e=EQ.find(x=>x.id===id);return e?eqCard(e):''}).join('')+'</div>';
+}
+
+// ========== COMPARADOR ==========
+function renderCmp(){
+  if(!cmpList.length){
+    $('cmp-content').innerHTML='<div class="cmp-pick"><p>📋 Ningún equipo seleccionado</p><p style="margin-top:4px">Andá a <strong>📋 Todos</strong> o <strong>⭐ Top</strong>, abrí una ficha y tocá "Agregar al comparador".</p></div>';
+    return;
+  }
+  const items=cmpList.map(id=>{const e=EQ.find(x=>x.id===id);return '<div class="cmp-item">'+e.n+' <span class="x" onclick="toggleCmp(\''+id+'\')">×</span></div>'}).join('');
+  const eqs=cmpList.map(id=>EQ.find(x=>x.id===id));
+  let rows=[
+    ['Categoría',eqs.map(e=>CATS[e.cat].em+' '+CATS[e.cat].n)],
+    ['Pitch',eqs.map(e=>e.pitch)],
+    ['Píxeles máx',eqs.map(e=>e.px)],
+    ['Entradas',eqs.map(e=>e.in)],
+    ['Salidas',eqs.map(e=>e.out)],
+    ['Rack',eqs.map(e=>e.u)],
+    ['Precio',eqs.map(e=>PRICE[e.p])],
+    ['Para',eqs.map(e=>e.cliente)],
+    ['⭐ Top ventas',eqs.map(e=>e.top?'✅ Sí':'—')]
+  ];
+  const table='<table><thead><tr><th></th>'+eqs.map(e=>'<th>'+e.n+'</th>').join('')+'</tr></thead><tbody>'+
+    rows.map(r=>'<tr><td class="eqn">'+r[0]+'</td>'+r[1].map(v=>'<td>'+v+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
+  $('cmp-content').innerHTML='<div class="cmp-pick"><p><strong>'+cmpList.length+'/3 equipos seleccionados</strong></p><div class="cmp-list">'+items+'</div><button class="fav-btn" onclick="cmpList=[];renderCmp()">🗑️ Limpiar comparador</button></div><div class="cmp-table">'+table+'</div>';
+}
+
+// ========== FAVORITOS ==========
+function renderFavs(){
+  if(!favs.length){
+    $('favs-content').innerHTML='<div class="empty"><div class="em">❤️</div><p>Todavía no marcaste favoritos.</p><p style="margin-top:6px">Andá a cualquier ficha y tocá "Agregar a favoritos".</p></div>';
+    return;
+  }
+  const list=favs.map(id=>EQ.find(x=>x.id===id)).filter(x=>x);
+  $('favs-content').innerHTML='<div class="eq-grid">'+list.map(eqCard).join('')+'</div>';
+}
+
+// ========== RENDER TODO ==========
+function render(){
+  renderInicio();renderTodos();renderTop();renderSearch();renderAsist();renderCmp();renderFavs();
+}
+
+// ========== NAV ==========
+document.querySelectorAll('.nb').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.nb').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    $('s-'+b.dataset.t).classList.add('on');
+    prevSec=b.dataset.t;
+    window.scrollTo(0,0);
+  };
+});
+
+$('si').addEventListener('input',doSearch);
+
+// INIT
+render();
+</script>
+</body>
+</html>
