@@ -1,4 +1,4 @@
-const CACHE = 'instalacion-led-v3';
+const CACHE = 'instalacion-led-v5';
 const FILES = ['./instalacion-pantallas-led.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
